@@ -31,7 +31,8 @@ impl TopKTracker {
     }
 }
 
-pub fn solve(input: String, topk: i32) -> i32 {
+pub fn solve(input: String, is_part_one: bool) -> i32 {
+    let topk = if is_part_one { 1 } else { 3 };
     let mut current_calories = 0;
     let mut tracker = TopKTracker::new(topk);
     for line in input.split('\n') {
@@ -54,14 +55,14 @@ mod tests {
     fn test_example() {
         let input = "1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000\n";
 
-        assert_eq!(solve(input.into(), 1), 24000);
+        assert_eq!(solve(input.into(), true), 24000);
     }
 
     #[test]
     fn test_example_part_two() {
         let input = "1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000\n";
 
-        assert_eq!(solve(input.into(), 3), 45000);
+        assert_eq!(solve(input.into(), false), 45000);
     }
 
     #[test]

@@ -13,12 +13,10 @@ fn solve_part_one(input: String) -> i32 {
     let mut total_sum = 0;
     for line in input.lines().filter(|x| x.len() > 0) {
         let half_ptr = line.len() / 2;
-        let first_half: HashSet<char> = (&line[..half_ptr]).chars().collect();
-        let second_half: HashSet<char> = (&line[half_ptr..]).chars().collect();
+        let in_both = find_chars_shared_by_strings(&[&line[..half_ptr], &line[half_ptr..]]);
 
-        let in_both = first_half.intersection(&second_half);
         if let Some(item) = in_both.into_iter().next() {
-            total_sum += calc_priority(item);
+            total_sum += calc_priority(&item);
         }
     }
 

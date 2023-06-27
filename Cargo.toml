@@ -12,4 +12,5 @@ name = "aoc2022-runner"
 path = "src/bin.rs"
 
 [dependencies]
+argparse = "0.2.2"
 itertools = "0.11.0"
