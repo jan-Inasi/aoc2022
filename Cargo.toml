@@ -10,5 +10,3 @@ path = "src/lib.rs"
 [[bin]]
 name = "aoc2022-runner"
 path = "src/bin.rs"
-
-[dependencies]
