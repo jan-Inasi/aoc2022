@@ -7,6 +7,7 @@ fn main() {
         1 => |x, y| aoc2022::day01::solve(x, y),
         2 => |x, y| aoc2022::day02::solve(x, y),
         3 => |x, y| aoc2022::day03::solve(x, y),
+        4 => |x, y| aoc2022::day04::solve(x, y),
         _ => {
             println!("the day has not been created yet, sorry …");
             return;
