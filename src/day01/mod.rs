@@ -1,6 +1,24 @@
 pub fn solve(input: String, is_part_one: bool) {
-    println!("output: {}", solution(input, is_part_one));
+    let result = if is_part_one {
+        solve_part_one(input)
+    } else {
+        solve_part_two(input)
+    };
+
+    println!("output: {result}");
 }
+
+fn solve_part_one(input: String) -> i32 {
+    0
+}
+
+fn solve_part_two(input: String) -> i32 {
+    0
+}
+
+// pub fn solve(input: String, is_part_one: bool) {
+//     println!("output: {}", solution(input, is_part_one));
+// }
 
 fn solution(input: String, is_part_one: bool) -> i32 {
     let topk = if is_part_one { 1 } else { 3 };
