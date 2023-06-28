@@ -20,7 +20,7 @@ fn main() {
         let part_nr = if do_part_two { 2 } else { 1 };
         println!("running part {part_nr} of day {day} problem");
         println!("input from: '{file_path}'");
-        println!("output: {}", fun(text, !do_part_two));
+        fun(text, !do_part_two);
     } else {
         println!("can't find input file at: '{file_path}'");
     }

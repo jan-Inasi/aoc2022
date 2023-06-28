@@ -1,9 +1,10 @@
-pub fn solve(input: String, is_part_one: bool) -> i32 {
-    if is_part_one {
+pub fn solve(input: String, is_part_one: bool) {
+    let result = if is_part_one {
         solve_part_one(input)
     } else {
         solve_part_two(input)
-    }
+    };
+    println!("output: {result}");
 }
 
 fn solve_part_one(input: String) -> i32 {

@@ -1,12 +1,13 @@
 use itertools::Itertools;
 use std::collections::HashSet;
 
-pub fn solve(input: String, part_one: bool) -> i32 {
-    if part_one {
+pub fn solve(input: String, part_one: bool) {
+    let result = if part_one {
         solve_part_one(input)
     } else {
         solve_part_two(input)
-    }
+    };
+    println!("output: {result}");
 }
 
 fn solve_part_one(input: String) -> i32 {
@@ -90,11 +91,11 @@ CrZsJsPPZsGzwwsLwLmpwMDw";
 
     #[test]
     fn test_example_part_one() {
-        assert_eq!(solve(INPUT.into(), true), 157);
+        assert_eq!(solve_part_one(INPUT.into()), 157);
     }
 
     #[test]
     fn test_example_part_two() {
-        assert_eq!(solve(INPUT.into(), false), 70);
+        assert_eq!(solve_part_two(INPUT.into()), 70);
     }
 }

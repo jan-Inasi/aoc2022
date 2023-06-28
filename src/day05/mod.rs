@@ -1,9 +1,9 @@
-pub fn solve(input: String, is_part_one: bool) -> i32 {
+pub fn solve(input: String, is_part_one: bool) {
     let (stacks_repr, moves) = match split_input(&input) {
         Some((stacks, moves)) => (stacks, moves),
         _ => {
             println!("WARNING couldn't find stacks or moves in the input");
-            return 0;
+            return;
         }
     };
 
@@ -11,18 +11,20 @@ pub fn solve(input: String, is_part_one: bool) -> i32 {
         Ok(stacks) => stacks,
         Err(_) => {
             println!("WARNING couldn't parse stacks' data");
-            return 0;
+            return;
         }
     };
 
-    if is_part_one {
+    let result = if is_part_one {
         solve_part_one(stacks, moves)
     } else {
         solve_part_two(stacks, moves)
-    }
+    };
+
+    println!("output: {result}");
 }
 
-fn solve_part_one(mut stacks: Stacks, moves: &str) -> i32 {
+fn solve_part_one(mut stacks: Stacks, moves: &str) -> String {
     for (count, from, to) in parse_moves(moves) {
         for _ in 0..count {
             if let Some(item) = stacks.pop_from(from) {
@@ -33,18 +35,14 @@ fn solve_part_one(mut stacks: Stacks, moves: &str) -> i32 {
         }
     }
 
-    let top_crates: String = stacks
+    stacks
         .stacks_slice()
         .iter()
         .flat_map(|x| x.last())
-        .collect();
-
-    println!("real output: {top_crates}");
-
-    0
+        .collect()
 }
 
-fn solve_part_two(mut stacks: Stacks, moves: &str) -> i32 {
+fn solve_part_two(mut stacks: Stacks, moves: &str) -> String {
     let mut counter_stack = Vec::new();
     for (count, from, to) in parse_moves(moves) {
         for _ in 0..count {
@@ -65,15 +63,11 @@ fn solve_part_two(mut stacks: Stacks, moves: &str) -> i32 {
         }
     }
 
-    let top_crates: String = stacks
+    stacks
         .stacks_slice()
         .iter()
         .flat_map(|x| x.last())
-        .collect();
-
-    println!("real output: {top_crates}");
-
-    0
+        .collect()
 }
 
 fn split_input(input: &str) -> Option<(&str, &str)> {

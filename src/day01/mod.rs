@@ -1,3 +1,24 @@
+pub fn solve(input: String, is_part_one: bool) {
+    println!("output: {}", solution(input, is_part_one));
+}
+
+fn solution(input: String, is_part_one: bool) -> i32 {
+    let topk = if is_part_one { 1 } else { 3 };
+    let mut current_calories = 0;
+    let mut tracker = TopKTracker::new(topk);
+    for line in input.split('\n') {
+        match line.parse::<i32>() {
+            Result::Ok(number) => current_calories += number,
+            Result::Err(..) => {
+                tracker.update(current_calories);
+                current_calories = 0;
+            }
+        }
+    }
+
+    tracker.get_topk().iter().sum()
+}
+
 struct TopKTracker {
     k: i32,
     topk: Vec<i32>,
@@ -31,22 +52,6 @@ impl TopKTracker {
     }
 }
 
-pub fn solve(input: String, is_part_one: bool) -> i32 {
-    let topk = if is_part_one { 1 } else { 3 };
-    let mut current_calories = 0;
-    let mut tracker = TopKTracker::new(topk);
-    for line in input.split('\n') {
-        match line.parse::<i32>() {
-            Result::Ok(number) => current_calories += number,
-            Result::Err(..) => {
-                tracker.update(current_calories);
-                current_calories = 0;
-            }
-        }
-    }
-    tracker.get_topk().iter().sum()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -55,14 +60,14 @@ mod tests {
     fn test_example() {
         let input = "1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000\n";
 
-        assert_eq!(solve(input.into(), true), 24000);
+        assert_eq!(solution(input.into(), true), 24000);
     }
 
     #[test]
     fn test_example_part_two() {
         let input = "1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000\n";
 
-        assert_eq!(solve(input.into(), false), 45000);
+        assert_eq!(solution(input.into(), false), 45000);
     }
 
     #[test]

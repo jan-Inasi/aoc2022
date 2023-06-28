@@ -1,11 +1,12 @@
 use std::convert::TryFrom;
 
-pub fn solve(input: String, part_one: bool) -> i32 {
-    if part_one {
+pub fn solve(input: String, part_one: bool) {
+    let result = if part_one {
         solve_part_one(input)
     } else {
         solve_part_two(input)
-    }
+    };
+    println!("output: {result}");
 }
 
 fn solve_part_one(input: String) -> i32 {
@@ -133,13 +134,13 @@ mod tests {
     fn test_example_part_one() {
         let input = "A Y\nB X\nC Z\n";
 
-        assert_eq!(solve(input.into(), true), 15);
+        assert_eq!(solve_part_one(input.into()), 15);
     }
 
     #[test]
     fn test_example_part_two() {
         let input = "A Y\nB X\nC Z\n";
 
-        assert_eq!(solve(input.into(), false), 12);
+        assert_eq!(solve_part_two(input.into()), 12);
     }
 }
