@@ -1,7 +1,7 @@
 use aoc2022::*;
 use argparse::ArgumentParser;
 use regex::Regex;
-use std::{fmt::Display, io::Write, path::Path};
+use std::{io::Write, path::Path};
 
 const INPUT_DIR: &str = "inputs";
 
@@ -105,6 +105,7 @@ fn init_new_day(day: i32) {
             if let Some(mat) = re_num.find(line) {
                 if let Ok(day_nr) = &line[mat.start()..mat.end()].parse::<i32>() {
                     if *day_nr == day {
+                        println!("day sollution was found in source code");
                         break;
                     } else if *day_nr > day {
                         idx_to_insert = Some(i);
@@ -129,20 +130,20 @@ fn init_new_day(day: i32) {
     match std::fs::OpenOptions::new().write(true).open(file!()) {
         Ok(mut file) => {
             for line in this_file_text.lines().take(insert_line_nr) {
-                if let Err(_) = write!(file, "{line}") {
+                if let Err(_) = writeln!(file, "{line}") {
                     failed_to_override = true;
                     println!("WARNING something went wrong while updating file");
                     break;
                 }
             }
 
-            if let Err(_) = write!(file, "        {day} => |x, y| day{day:0>2}::solve(x, y),") {
+            if let Err(_) = writeln!(file, "        {day} => |x, y| day{day:0>2}::solve(x, y),") {
                 failed_to_override = true;
                 println!("WARNING something went wrong while updating file");
             }
 
             for line in this_file_text.lines().skip(insert_line_nr) {
-                if let Err(_) = write!(file, "{line}") {
+                if let Err(_) = writeln!(file, "{line}") {
                     failed_to_override = true;
                     println!("WARNING something went wrong while updating file");
                     break;
@@ -170,6 +171,14 @@ fn init_new_day(day: i32) {
                 println!("something went terribly wrong, I am sorry");
                 println!("{e}");
             }
+        }
+    } else {
+        if let Ok(mut file) = std::fs::OpenOptions::new().append(true).open("src/lib.rs") {
+            if let Err(_) = writeln!(file, "pub mod day{day:0>2};") {
+                println!("WARNING couldn't update lib.rs");
+            }
+        } else {
+            println!("WARNING couldn't update lib.rs");
         }
     }
 
