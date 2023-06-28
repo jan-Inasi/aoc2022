@@ -125,15 +125,56 @@ fn init_new_day(day: i32) {
         return;
     };
 
-    for line in this_file_text.lines().take(insert_line_nr) {
-        println!("{line}");
+    let mut failed_to_override = false;
+    match std::fs::OpenOptions::new().write(true).open(file!()) {
+        Ok(mut file) => {
+            for line in this_file_text.lines().take(insert_line_nr) {
+                if let Err(_) = write!(file, "{line}") {
+                    failed_to_override = true;
+                    println!("WARNING something went wrong while updating file");
+                    break;
+                }
+            }
+
+            if let Err(_) = write!(file, "        {day} => |x, y| day{day:0>2}::solve(x, y),") {
+                failed_to_override = true;
+                println!("WARNING something went wrong while updating file");
+            }
+
+            for line in this_file_text.lines().skip(insert_line_nr) {
+                if let Err(_) = write!(file, "{line}") {
+                    failed_to_override = true;
+                    println!("WARNING something went wrong while updating file");
+                    break;
+                }
+            }
+        }
+        Err(e) => {
+            println!("WARNING couldn't open bin file to modification");
+            println!("{e}");
+        }
     }
 
-    println!("        {day} => |x, y| day{day:0>2}::solve(x, y),");
-
-    for line in this_file_text.lines().skip(insert_line_nr) {
-        println!("{line}");
+    if failed_to_override {
+        match std::fs::OpenOptions::new().write(true).open(file!()) {
+            Ok(mut file) => {
+                if let Err(_) = write!(file, "{this_file_text}") {
+                    println!("something went terribly wrong, I am sorry");
+                } else {
+                    println!(
+                        "couldn't override a src file but thankfully it has not been corrupted"
+                    );
+                }
+            }
+            Err(e) => {
+                println!("something went terribly wrong, I am sorry");
+                println!("{e}");
+            }
+        }
     }
+
+    println!("I think init has been successful");
+    println!("remember to pase the input at: {input_file_path}")
 }
 
 fn parse_arguments() -> (i32, bool, bool) {
