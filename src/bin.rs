@@ -19,6 +19,7 @@ fn main() {
         3 => |x, y| day03::solve(x, y),
         4 => |x, y| day04::solve(x, y),
         5 => |x, y| day05::solve(x, y),
+        6 => |x, y| day06::solve(x, y),
         _ => {
             println!("the day has not been created yet, sorry …");
             return;
